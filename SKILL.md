@@ -1,83 +1,71 @@
 ---
 name: updatenight
-description: Discover and explore AI developer tools, agent frameworks, MCP servers, and AI news using the Update Night catalog and CLI. Use when the user asks about AI tools, wants to find something for a specific task, or wants to browse the latest AI dev tool news.
+description: Discover and explore AI developer tools, agent frameworks, MCP servers, and AI news using the Update Night catalog. Use when the user asks about AI tools, wants to find something for a specific task, or wants to browse the latest AI dev tool news.
 ---
 
 # Update Night
 
-Update Night is an AI developer tools catalog covering tools, agent frameworks, SDKs, MCP servers, skills, and AI news.
+Helps users explore the Update Night catalog of AI developer tools, agent frameworks, SDKs, MCP servers, and AI news using the `un` CLI.
 
-## CLI (`un`)
+## Setup
 
-Install the CLI to browse the catalog interactively from your terminal:
+First, check if `un` is installed. If not, install it:
 
 ```bash
-cargo install --git https://github.com/amajorai/updatenight --bin un
+which un 2>/dev/null || cargo binstall -y un
 ```
 
-Or build from source:
+If `cargo binstall` isn't available, install from releases:
+
 ```bash
-git clone https://github.com/amajorai/updatenight
-cd updatenight/apps/cli
-cargo build --release
+# macOS Apple Silicon
+curl -fsSL https://github.com/amajorai/updatenight-cli/releases/latest/download/un-aarch64-apple-darwin.tar.gz | tar xz -C /usr/local/bin
+
+# macOS Intel
+curl -fsSL https://github.com/amajorai/updatenight-cli/releases/latest/download/un-x86_64-apple-darwin.tar.gz | tar xz -C /usr/local/bin
+
+# Linux x86_64
+curl -fsSL https://github.com/amajorai/updatenight-cli/releases/latest/download/un-x86_64-unknown-linux-gnu.tar.gz | tar xz -C /usr/local/bin
 ```
 
-### Commands
+## Usage
 
-| Command | Description |
-|---------|-------------|
-| `un` | Launch the TUI browser |
-| `un login` | Authorize with your Update Night account (device flow) |
-| `un logout` | Remove stored credentials |
+Launch the interactive TUI to search and browse the catalog:
 
-### TUI Keyboard Shortcuts
+```bash
+un
+```
+
+Authenticate for semantic search (optional but recommended):
+
+```bash
+un login
+```
+
+## TUI tabs
+
+- **Search** — type to search the catalog; authenticated users get semantic search
+- **News** — recent AI dev news from the last 7 days
+- **Browse** — browse by kind (Tools / Skills / MCPs) and category
+
+## Keyboard shortcuts
 
 | Key | Action |
 |-----|--------|
 | `1` / `Tab` | Search tab |
 | `2` | News tab |
 | `3` | Browse tab |
-| `↑↓` / `j` `k` | Navigate list |
-| `Enter` | Open detail view |
+| `↑` `↓` / `j` `k` | Navigate list |
+| `Enter` | Open detail |
 | `o` | Open URL in browser |
 | `Esc` | Close detail |
 | `q` / `Ctrl+C` | Quit |
-| `← →` / `h` `l` | Change kind (Browse tab) |
+| `←` `→` / `h` `l` | Change kind (Browse tab) |
 | `[` `]` | Change category (Browse tab) |
 
-## API
+## When to use
 
-Base URL: `https://updatenight.com/api`
-
-Key endpoints:
-- `GET /entries?q=&kind=&category=&status=published&limit=` — Browse catalog
-- `GET /news?days=7` — Recent AI news
-- `POST /search` — Semantic search (requires auth token)
-- `POST /auth/device/code` — Start device authorization
-- `POST /auth/device/token` — Poll for access token
-
-## Authentication
-
-The CLI uses the OAuth 2.0 Device Authorization Grant (RFC 8628):
-
-1. Run `un login`
-2. A code is printed in the terminal (e.g., `ABCD-1234`)
-3. Browser opens to `https://updatenight.com/device`
-4. Sign in and enter the code
-5. CLI is authorized and stores a Bearer token at `~/.config/updatenight/config.json`
-
-## When to use this skill
-
-- User asks "find me an AI tool for X" → search the catalog
-- User asks about the latest AI dev tool news → browse news tab
-- User wants to install or learn about a specific tool, skill, or MCP server
-- User wants to browse tools by category (agent frameworks, vector DBs, etc.)
-
-## Environment
-
-Set `UN_API_URL` to override the default API endpoint (useful for local development):
-
-```bash
-export UN_API_URL=http://localhost:3000
-un
-```
+- User asks "find me an AI tool for X" → run `un`, guide them to Search tab
+- User asks about latest AI dev news → run `un`, guide them to News tab
+- User wants to browse by category → run `un`, guide them to Browse tab
+- User needs to install or learn about a specific tool/skill/MCP → run `un` and open the entry
