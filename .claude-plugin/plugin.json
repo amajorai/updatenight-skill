@@ -1,0 +1,11 @@
+{
+  "name": "updatenight",
+  "description": "Search and explore the Update Night catalog of AI dev tools, agent frameworks, MCP servers, skills, and AI news",
+  "version": "1.0.0",
+  "author": {
+    "name": "A Major",
+    "url": "https://github.com/amajorai"
+  },
+  "homepage": "https://updatenight.com",
+  "repository": "https://github.com/amajorai/updatenight-skill"
+}
